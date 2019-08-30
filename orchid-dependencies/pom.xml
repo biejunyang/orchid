@@ -3,17 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
+    <groupId>com.orchid</groupId>
     <artifactId>orchid-dependencies</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>orchid dependencies</name>
+
+    <name>${project.artifactId}</name>
     <description>三方库版本管理</description>
 
-    <parent>
-        <groupId>com.orchid</groupId>
-        <artifactId>orchid-build</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
-    </parent>
 
     <properties>
         <!-- java version, encoding-->
@@ -76,6 +73,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
