@@ -280,18 +280,17 @@
         </dependencies>
     </dependencyManagement>
 
-
     <repositories>
-        <repository>
-            <id>genomics</id>
-            <url>http://10.225.12.115:8881/repository/maven-public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
+        <!--<repository>-->
+            <!--<id>genomics</id>-->
+            <!--<url>http://10.225.12.115:8881/repository/maven-public/</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+        <!--</repository>-->
         <repository>
             <id>aliyun</id>
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
@@ -315,16 +314,16 @@
         </repository>
     </repositories>
     <pluginRepositories>
-        <pluginRepository>
-            <id>genomics</id>
-            <url>http://10.225.12.115:8881/repository/maven-public/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
+        <!--<pluginRepository>-->
+            <!--<id>genomics</id>-->
+            <!--<url>http://10.225.12.115:8881/repository/maven-public/</url>-->
+            <!--<snapshots>-->
+                <!--<enabled>true</enabled>-->
+            <!--</snapshots>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+        <!--</pluginRepository>-->
         <pluginRepository>
             <id>aliyun</id>
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
