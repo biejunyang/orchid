@@ -81,10 +81,3 @@ orchid
 
 
 	
-	Dcoker引擎
-	镜像
-	容器
-	Docker Registry(镜像中心)
-	Dockerfile
-	Maven Docker插件使用
-	Docker Compose编排服务
