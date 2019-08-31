@@ -28,23 +28,34 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 
 
 # Docker快速开始
-## Docker安装：https://yeasy.gitbooks.io/docker_practice/install/
+### Docker安装：https://yeasy.gitbooks.io/docker_practice/install/
 
-## 镜像加速器配置：https://yeasy.gitbooks.io/docker_practice/install/mirror.html
+### 镜像加速器配置：https://yeasy.gitbooks.io/docker_practice/install/mirror.html
 
-## Docke镜像操作：https://yeasy.gitbooks.io/docker_practice/image/
+### Docke镜像操作：https://yeasy.gitbooks.io/docker_practice/image/
 
-## Docker Container容器操作：https://yeasy.gitbooks.io/docker_practice/container/
+### Docker Container容器操作：https://yeasy.gitbooks.io/docker_practice/container/
 
-## Dockerfile构建Docker镜像：https://yeasy.gitbooks.io/docker_practice/image/build.html
+### Dockerfile构建Docker镜像：https://yeasy.gitbooks.io/docker_practice/image/build.html
 
 
 # Docker部署微服务应用：
-## 1、创建Dockerfile构建脚本，如：
+### 1、创建Dockerfile构建脚本，如：
     FROM java8
     VOLUME /tmp
-    ADD organization-0.0.1-SNAPSHOT.jar app.jar
+    ADD docker-example-1.0.1-SNAPSHOT.jar app.jar
     ENTRYPOINT ["java","-jar","/app.jar"]
-
-
+    
+### 2、执行Docker Build命令将jar文件构建成Docker镜像，如：
+    Docker build -t orchid-examples/docker-example:1.0.1-SNAPSHOT .
+   -t：指定镜像仓库名及标签
+   
+   . ：指定镜像构建上下文路径,.表示当前目录，
+   
+   **注意**：Docker构建镜像是在docker引擎中进行的，而不是在本地宿主机中，宿主机只是在通过docker客户端(cmd)与Docker引擎（Docker Deamon）进行交互，通知Docker引擎进行构建镜像工作。但是构建中需要的文件时在本地宿主机中，所以需要提前将构建需要的文件上传到Docker引擎中，于是引入了构建上下文的概念。
+   构建时Docker build命令会获取到这个构建上线文路径，会将该路径下的所有内容打包上传到Docker引擎，Docker引擎获取到构建上线文包后，就可以获取到构建需要的文件，开始构建
+   
+  
+### 3、执行Docker run命令运行镜像，生成Docker容器
+    
 
