@@ -41,13 +41,23 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 
 # Docker部署微服务应用：
 ### 1、创建Dockerfile构建脚本，如：
+    #基于哪个镜像
     FROM java8
+      
+    #将宿主机文件夹挂载到当前容器
     VOLUME /tmp
-    ADD docker-example-1.0.1-SNAPSHOT.jar app.jar
+    
+    #复制jar文件到容器中,源路径是相当于构建上下文路径，目的路径是相对于容器的工作目录,默认是/根路径
+    ADD docker-example-0.0.1-SNAPSHOT.jar app.jar
+    
+    #声明容器需要暴露的端口，主要是告知镜像使用者
+    EXPOSE 8080
+    
+    #配置容器启动后执行的命令
     ENTRYPOINT ["java","-jar","/app.jar"]
     
 ### 2、执行Docker Build命令将jar文件构建成Docker镜像，如：
-    Docker build -t orchid-examples/docker-example:1.0.1-SNAPSHOT .
+    docker build -t orchid-examples/docker-example:1.0.1-SNAPSHOT .
    -t：指定镜像仓库名及标签
    
    . ：指定镜像构建上下文路径,.表示当前目录，
@@ -55,7 +65,6 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
    **注意**：Docker构建镜像是在docker引擎中进行的，而不是在本地宿主机中，宿主机只是在通过docker客户端(cmd)与Docker引擎（Docker Deamon）进行交互，通知Docker引擎进行构建镜像工作。但是构建中需要的文件时在本地宿主机中，所以需要提前将构建需要的文件上传到Docker引擎中，于是引入了构建上下文的概念。
    构建时Docker build命令会获取到这个构建上线文路径，会将该路径下的所有内容打包上传到Docker引擎，Docker引擎获取到构建上线文包后，就可以获取到构建需要的文件，开始构建
    
-  
 ### 3、执行Docker run命令运行镜像，生成Docker容器
-    
+    docker run -d -p 8080:8080 orchid-examples/docker-example
 
