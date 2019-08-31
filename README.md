@@ -3,6 +3,21 @@
 基于SpringCloud的微服务开发脚手架，整合了spring-security-oauth2、springboot-admin、feign、hystrix、spring-cloud-gateway、turbine等，让项目开发快速进入业务开发，而不需过多时间花费在架构搭建上。
 
 
+
+
+
+
+
+
+##技术点整理
+| 三方库 | 版本 |
+| -- |-- |
+| Spring Boot | 2.1.3.RELEASE |
+
+
+
+
+
 ## 项目目录结构
 
 ```
@@ -80,4 +95,4 @@ orchid
 [规范文档](docs/pattern.md)
 
 
-	
+[Spring Cloud架构](https://www.processon.com/view/link/597ffa52e4b06a973c4d86ba)
