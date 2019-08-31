@@ -12,7 +12,7 @@
 ## 技术点整理
 | 目录 | 介绍 | 文档 | 示例 |
 | -- |-- |-- |-- |
-| Docker | Docker使用 | [介绍](Docker/README.md) | [Demo示例](orchild-examples/docker-example) |
+| Docker | Docker使用 | [介绍](Docker/README.md) | [Demo示例](orchid-examples/docker-example) |
 
 
 
