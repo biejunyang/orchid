@@ -1,5 +1,5 @@
 # orchid
-Software application develop technology  stack integration, sharing, communication and study.Not limited to various develop languages  or technology.
+应用开发技术栈整理，共享，交流，学习。不限于开发语言，开发技术。
 
 orchid
 	orchid-dependencies #三方库版本管理
