@@ -33,7 +33,15 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 ### 镜像加速器配置：https://yeasy.gitbooks.io/docker_practice/install/mirror.html
 
 ### Docke镜像操作：https://yeasy.gitbooks.io/docker_practice/image/
-
+   Docker国内镜像库：https://registry.docker-cn.com
+   
+   DaoCloud镜像库：http://f1361db2.m.daocloud.io
+   
+   网易镜像库：http://hub-mirror.c.163.com
+   
+   阿里云镜像库：登录阿里云控制台查看
+   
+   
 ### Docker Container容器操作：https://yeasy.gitbooks.io/docker_practice/container/
 
 ### Dockerfile构建Docker镜像：https://yeasy.gitbooks.io/docker_practice/image/build.html
