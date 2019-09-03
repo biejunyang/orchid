@@ -18,4 +18,9 @@ public class MainApp {
     public String hello(String name){
         return "<h1>hello,"+name+"</h1>";
     }
+
+    @GetMapping("/welcome")
+    public String welcome(String name){
+        return "<h1>welcome,"+name+"</h1>";
+    }
 }

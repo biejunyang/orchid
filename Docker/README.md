@@ -31,8 +31,6 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 ### Docker安装：https://yeasy.gitbooks.io/docker_practice/install/
 
 ### 镜像加速器配置：https://yeasy.gitbooks.io/docker_practice/install/mirror.html
-
-### Docke镜像操作：https://yeasy.gitbooks.io/docker_practice/image/
    Docker国内镜像库：https://registry.docker-cn.com
    
    DaoCloud镜像库：http://f1361db2.m.daocloud.io
@@ -42,7 +40,25 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
    阿里云镜像库：登录阿里云控制台查看
    
    
+### Docker镜像操作：https://yeasy.gitbooks.io/docker_practice/image/
+   docker search image ：镜像查找
+   
+   docker pull image：镜像下载
+   
+   docker rmi image：删除本地镜像
+   
+   
 ### Docker Container容器操作：https://yeasy.gitbooks.io/docker_practice/container/
+   docker run：运行镜像成容器
+   
+   docker rm :删除容器
+   
+   docker start：运行容器
+   
+   docker stop：停止容器运行
+   
+   docker restart:重启容器
+
 
 ### Dockerfile构建Docker镜像：https://yeasy.gitbooks.io/docker_practice/image/build.html
 
@@ -76,3 +92,9 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 ### 3、执行Docker run命令运行镜像，生成Docker容器
     docker run -d -p 8080:8080 orchid-examples/docker-example
 
+# Docker Maven插件构建Docker镜像：
+  一般不手动使用Docker build命令执行Dockerfile脚本构建镜像。通常使用Maven Docker插件使用maven命令来构建Docker镜像。常用的Maven Docker插件：
+  
+    插件名：docker-maven-plugin
+    官方地址：https://github.com/spotify/docker-maven-plugin
+    

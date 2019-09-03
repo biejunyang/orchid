@@ -21,6 +21,13 @@
 
     <properties>
         <orchild.version>${project.version}</orchild.version>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <!--docker properties -->
+        <docker.image.prefix>${user.name}</docker.image.prefix>
+
     </properties>
 
 
@@ -48,10 +55,31 @@
 
 
     <build>
+        <!--项目输出名-->
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
+        <!-- 项目默认添加的插件依赖-->
+        <plugins>
+
+
+        </plugins>
+
+
         <!-- 项目构建插件管理-->
         <pluginManagement>
-            <!-- 项目构建插件-->
             <plugins>
+                <!--maven compiler插件-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <compilerArgument>-parameters</compilerArgument>
+                        <parameters>true</parameters>
+                    </configuration>
+                </plugin>
+
                 <!--Spring Boot应用构建插件-->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -65,9 +93,46 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!-- maven docker插件-->
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>1.2.0</version>
+                    <configuration>
+                        <!--构建的镜像名-->
+                        <imageName>${project.artifactId}</imageName>
+                        <imageTags>
+                            <imageTag>${project.version}</imageTag>
+                        </imageTags>
+
+                        <!-- 指定Dockerfile 路径-->
+                        <!--<dockerDirectory>${basedir}/docker</dockerDirectory>-->
+
+                        <!--基础镜像-->
+                        <baseImage>williamyeh/java8</baseImage>
+
+                        <!--声明要暴露的端口 -->
+                        <exposes>8080</exposes>
+
+                        <!--文件复制指令，复制文件到容器指定目录-->
+                        <resources>
+                            <resource>
+                                <!--容器目标路径-->
+                                <targetPath>/</targetPath>
+                                <directory>${project.build.directory}</directory>
+                                <include>${project.build.finalName}.jar</include>
+                            </resource>
+                        </resources>
+                        <cmd>["java", "-version"]</cmd>
+                        <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+                    </configuration>
+                </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
+
 
     <developers>
         <developer>
