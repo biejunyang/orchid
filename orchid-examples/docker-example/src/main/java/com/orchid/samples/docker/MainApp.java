@@ -23,4 +23,14 @@ public class MainApp {
     public String welcome(String name){
         return "<h1>welcome,"+name+"</h1>";
     }
+
+    @GetMapping("/world")
+    public String world(String name){
+        return "<h1>world,"+name+"</h1>";
+    }
+
+    @GetMapping("/bye")
+    public String bye(String name){
+        return "<h1>bye,"+name+"</h1>";
+    }
 }

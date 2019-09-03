@@ -94,7 +94,7 @@
                     </executions>
                 </plugin>
 
-                <!-- maven docker插件-->
+                <!-- docker maven插件-->
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
@@ -106,11 +106,14 @@
                             <imageTag>${project.version}</imageTag>
                         </imageTags>
 
+                        <!--强制覆盖镜像的某个标记-->
+                        <forceTags>true</forceTags>
+
                         <!-- 指定Dockerfile 路径-->
                         <!--<dockerDirectory>${basedir}/docker</dockerDirectory>-->
 
                         <!--基础镜像-->
-                        <baseImage>williamyeh/java8</baseImage>
+                        <baseImage>fabletang/jre8-alpine</baseImage>
 
                         <!--声明要暴露的端口 -->
                         <exposes>8080</exposes>
@@ -124,7 +127,6 @@
                                 <include>${project.build.finalName}.jar</include>
                             </resource>
                         </resources>
-                        <cmd>["java", "-version"]</cmd>
                         <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
                     </configuration>
                 </plugin>

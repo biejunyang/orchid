@@ -16,7 +16,7 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 # [Docker架构](https://docs.docker.com/engine/docker-overview/)
 * **DOCKER_HOST(宿主机)**：安装了Docker的物理机（也可以是虚拟机）。
 
-* **Docker Daemon(Docker守护进程)**：运行在宿主机上的集成，用来与Docker客户端进行，执行Docker命令。
+* **Docker Daemon(Docker守护进程)**：运行在宿主机上的集成，用来与Docker客户端进行交互，执行Docker命令。
 
 * **Docker Client**：Docker的用户界面，调用Docker命令的程序或工具
 
@@ -94,7 +94,47 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 
 # Docker Maven插件构建Docker镜像：
   一般不手动使用Docker build命令执行Dockerfile脚本构建镜像。通常使用Maven Docker插件使用maven命令来构建Docker镜像。常用的Maven Docker插件：
-  
-    插件名：docker-maven-plugin
-    官方地址：https://github.com/spotify/docker-maven-plugin
+   插件名：docker-maven-plugin
+   官方地址：https://github.com/spotify/docker-maven-plugin
     
+##1、docker-maven插件构建镜像有两种方式：一种是将构建信息都定义在pom.xml文件中，不需要Dock erfile脚本，pom中支持的构建指令包括，FROM,ADD,CMD等构建指令；第二种是pom.xml文件中指定Dockerfile脚本位置，传入构建参数进行构建：
+### 1.1、pom.xml文件中指定构建信息
+    <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.2.0</version>
+        <configuration>
+            <!--构建的镜像名-->
+            <imageName>${project.artifactId}</imageName>
+            <imageTags>
+                <imageTag>${project.version}</imageTag>
+            </imageTags>
+            <!--强制覆盖镜像的某个标记-->
+            <forceTags>true</forceTags>
+    
+     <!--基础镜像-->
+            <baseImage>williamyeh/java8</baseImage>
+            <!--声明要暴露的端口 -->
+            <exposes>8080</exposes>
+    <!--文件复制指令，复制文件到容器指定目录-->
+            <resources>
+                <resource>
+                    <!--容器目标路径-->
+                    <targetPath>/</targetPath>
+                    <directory>${project.build.directory}</directory>
+                    <include>${project.build.finalName}.jar</include>
+                </resource>
+            </resources>
+    <!--容器启动后执行的命令-->
+            <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+        </configuration>
+    </plugin>
+ 
+ 
+ ### 1.2、pom.xml文件读取Dockerfile文件构建
+    
+    注意：docker-maven-plugin插件指定的镜像名imageName规则必须是严格遵循：[a-z0-9-_.]，也就是说只能出现 a~z 小写字母，0~9，下划线"_" 和 点"."，否则构建失败
+    
+    
+    2、执行构建命令两种方式：
+    一种是时直接使用mvn命令执行 ，如：
