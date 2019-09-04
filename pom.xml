@@ -110,13 +110,20 @@
                         <forceTags>true</forceTags>
 
                         <!-- 指定Dockerfile 路径-->
-                        <!--<dockerDirectory>${basedir}/docker</dockerDirectory>-->
+                        <dockerDirectory>${basedir}/docker</dockerDirectory>
+
+                        <!--Docker构建时的目录,默认是${project.build.directory}，构建上下文目录则是该目录下的docker目录-->
+                        <buildDirectory>${project.build.directory}</buildDirectory>
+                        <!--构建参数设置-->
+                        <buildArgs>
+                            <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                        </buildArgs>
 
                         <!--基础镜像-->
-                        <baseImage>fabletang/jre8-alpine</baseImage>
+                        <!--<baseImage>fabletang/jre8-alpine</baseImage>-->
 
                         <!--声明要暴露的端口 -->
-                        <exposes>8080</exposes>
+                        <!--<exposes>8080</exposes>-->
 
                         <!--文件复制指令，复制文件到容器指定目录-->
                         <resources>
@@ -127,7 +134,8 @@
                                 <include>${project.build.finalName}.jar</include>
                             </resource>
                         </resources>
-                        <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+                        <!--容器启动执行命令-->
+                        <!--<entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>-->
                     </configuration>
                 </plugin>
 

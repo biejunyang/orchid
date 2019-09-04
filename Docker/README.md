@@ -98,7 +98,7 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
    官方地址：https://github.com/spotify/docker-maven-plugin
     
 ##1、docker-maven插件构建镜像有两种方式：一种是将构建信息都定义在pom.xml文件中，不需要Dock erfile脚本，pom中支持的构建指令包括，FROM,ADD,CMD等构建指令；第二种是pom.xml文件中指定Dockerfile脚本位置，传入构建参数进行构建：
-### 1.1、pom.xml文件中指定构建信息
+### 1.1、pom.xml文件中指定构建信息，如：
     <plugin>
         <groupId>com.spotify</groupId>
         <artifactId>docker-maven-plugin</artifactId>
@@ -112,11 +112,11 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
             <!--强制覆盖镜像的某个标记-->
             <forceTags>true</forceTags>
     
-     <!--基础镜像-->
-            <baseImage>williamyeh/java8</baseImage>
+            <!--基础镜像-->
+            <baseImage>fabletang/jre8-alpine</baseImage>
             <!--声明要暴露的端口 -->
             <exposes>8080</exposes>
-    <!--文件复制指令，复制文件到容器指定目录-->
+            <!--文件复制指令，复制文件到容器指定目录-->
             <resources>
                 <resource>
                     <!--容器目标路径-->
@@ -125,16 +125,52 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
                     <include>${project.build.finalName}.jar</include>
                 </resource>
             </resources>
-    <!--容器启动后执行的命令-->
+            <!--容器启动后执行的命令-->
             <entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
         </configuration>
     </plugin>
  
  
  ### 1.2、pom.xml文件读取Dockerfile文件构建
+ 使用Dockerfile文件时，pom文件中必须指定‘DockerDirectory’元素指定Dockerfile文件目录，pom文件中定义的baseImage,maintainer,cmd,entryPoint等元素的值江北忽略，Dockerfile文件中的为准，‘resources’元素仍然有效，但是只是将文件复制上构建目录中，并没有直接复制到Docker引擎中 ,pom文件如：
+
+     <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.2.0</version>
+        <configuration>
+            <!--构建的镜像名-->
+            <imageName>${project.artifactId}</imageName>
+            <imageTags>
+                <imageTag>${project.version}</imageTag>
+            </imageTags>
     
-    注意：docker-maven-plugin插件指定的镜像名imageName规则必须是严格遵循：[a-z0-9-_.]，也就是说只能出现 a~z 小写字母，0~9，下划线"_" 和 点"."，否则构建失败
+            <!--强制覆盖镜像的某个标记-->
+            <forceTags>true</forceTags>
+    
+            <!-- 指定Dockerfile 路径-->
+            <dockerDirectory>${basedir}/docker</dockerDirectory>
+    
+            <!--Docker构建时的目录,默认是${project.build.directory}，构建上下文目录则是该目录下的docker目录-->
+            <buildDirectory>${project.build.directory}</buildDirectory>
+            <!--构建参数设置-->
+            <buildArgs>
+                <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+            </buildArgs>
     
     
-    2、执行构建命令两种方式：
-    一种是时直接使用mvn命令执行 ，如：
+            <!--文件复制指令，复制文件到构建目录-->
+            <resources>
+                <resource>
+                    <!--容器目标路径-->
+                    <targetPath>/</targetPath>
+                    <directory>${project.build.directory}</directory>
+                    <include>${project.build.finalName}.jar</include>
+                </resource>
+            </resources>
+        </configuration>
+    </plugin>
+    
+   **___注意：docker-maven-plugin插件指定的镜像名imageName规则必须是严格遵循：[a-z0-9-_.]，也就是说只能出现 a~z 小写字母，0~9，下划线"_" 和 点"."，否则构建失败_**
+    
+    
