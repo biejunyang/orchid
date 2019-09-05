@@ -26,8 +26,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!--docker properties -->
-        <!--<docker.image.prefix>registry.cn-beijing.aliyuncs.com/biejunyang</docker.image.prefix>-->
-        <docker.image.prefix>biejunyang</docker.image.prefix>
+        <docker.image.prefix>registry.cn-hangzhou.aliyuncs.com/biejunyang</docker.image.prefix>
+        <!-- <docker.image.prefix>biejunyang</docker.image.prefix> -->
 
     </properties>
 
@@ -99,7 +99,7 @@
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.4.11</version>
+                    <version>1.2.0</version>
                     <configuration>
                         <!--构建的镜像名-->
                         <imageName>${project.artifactId}</imageName>
@@ -147,14 +147,14 @@
                         <!--删除历史镜像-->
                         <execution>
                             <id>remove-image</id>
-                            <phase>package</phase>
+                            <phase>clean</phase>
                             <goals>
                                 <goal>removeImage</goal>
                             </goals>
                         </execution>
                         <execution>
                             <id>remove-tag-image</id>
-                            <phase>package</phase>
+                            <phase>clean</phase>
                             <goals>
                                 <goal>removeImage</goal>
                             </goals>
@@ -184,6 +184,17 @@
                             <configuration>
                                 <image>${project.artifactId}:${project.version}</image>
                                 <newName>${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
+                            </configuration>
+                        </execution>
+                        <!--推送镜像-->
+                        <execution>
+                            <id>push-image</id>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                            <configuration>
+                                <imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>
                             </configuration>
                         </execution>
                     </executions>
