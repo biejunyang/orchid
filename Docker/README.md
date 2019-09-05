@@ -109,7 +109,9 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 
 # Docker Maven插件构建Docker镜像：
   一般不手动使用Docker build命令执行Dockerfile脚本构建镜像。通常使用Maven Docker插件使用maven命令来构建Docker镜像。常用的Maven Docker插件：
+   
    插件名：docker-maven-plugin
+   
    官方地址：https://github.com/spotify/docker-maven-plugin
     
 ## 1、docker-maven插件构建镜像有两种方式：一种是将构建信息都定义在pom.xml文件中，不需要Dock erfile脚本，pom中支持的构建指令包括，FROM,ADD,CMD等构建指令；第二种是pom.xml文件中指定Dockerfile脚本位置，传入构建参数进行构建：
