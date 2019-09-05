@@ -61,6 +61,19 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
 
 
 ### Dockerfile构建Docker镜像：https://yeasy.gitbooks.io/docker_practice/image/build.html
+   docker build -t iamgeName 构建上下文路径
+
+### Docker 镜像发布到Registry注：https://yeasy.gitbooks.io/docker_practice/repository/
+   发布镜像：docker push username/docker-example:1.0.1-SNAPSHOT
+   
+   
+   Registry登录退出：docker login,docker logout
+   
+   
+   注意：发布镜像时需要登录授权，默认上传到的是DockerHub注册服务器中的个人仓库下，所以发布镜像格式为：username/镜像名:标记；username为个人账户名，表示个人仓库
+
+   发布私有Registry，镜像完整地址如：docker push registry-url[:port]/repostiry/name:tag
+
 
 
 # Docker部署微服务应用：
@@ -91,6 +104,8 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
    
 ### 3、执行Docker run命令运行镜像，生成Docker容器
     docker run -d -p 8080:8080 orchid-examples/docker-example
+
+
 
 # Docker Maven插件构建Docker镜像：
   一般不手动使用Docker build命令执行Dockerfile脚本构建镜像。通常使用Maven Docker插件使用maven命令来构建Docker镜像。常用的Maven Docker插件：
@@ -171,6 +186,74 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
         </configuration>
     </plugin>
     
-   **___注意：docker-maven-plugin插件指定的镜像名imageName规则必须是严格遵循：[a-z0-9-_.]，也就是说只能出现 a~z 小写字母，0~9，下划线"_" 和 点"."，否则构建失败_**
+## 2、docker maven插件执行方式：
+### 2.1、使用maven命令执行构建，如：
+   生成镜像命令：mvn docker:build 
+   
+   生成镜像并上传到registry，默认是上传到Docker Hub公共Registry,可以指定参数上传到私有Registry：mvn docker:build -DpushImage
+   
+   上传imageTags元素指定的标记到Registry，如：mvn docker:build -DpushImage
+   
+   上传参数指定的标记到Registry，如：mvn docker:build -DpushImageTag -DdockerImageTags=latest,another-tag
+   
+   删除镜像：mvn docker:removeImage
+   
+   删除指定镜像：mvn docker:removeImage -DimageName=foobar
+
+
+### 2.2、绑定到maven构建生命周期阶段，如：
+   绑定插件目标到maven生命周期阶段，当maven构建到该阶段时，会自动执行插件的目标。如package阶段绑定build目标生成镜像，以及绑定tag目标生成不同的镜像标记方便发布到Regis try中；install阶段或者deploy阶段绑定push目标，上传镜像到指定的Registry，pom如：
     
+    <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.4.11</version>
+        <configuration>
+            <!--基础配置和上面一致-->
+            ...
+        </configuration>
+
+        <!-- 绑定到maven生命周期阶段-->
+        <executions>
+            <!--删除历史镜像-->
+            <execution>
+                <id>remove-image</id>
+                <phase>package</phase>
+                <goals>
+                    <goal>removeImage</goal>
+                </goals>
+            </execution>
+
+            <!--生成镜像-->
+            <execution>
+                <id>build-image</id>
+                <phase>package</phase>
+                <goals>
+                    <goal>build</goal>
+                </goals>
+            </execution>
+            
+            <!--标记镜像-->
+            <execution>
+                <id>tag-image</id>
+                <phase>package</phase>
+                <goals>
+                    <goal>tag</goal>
+                </goals>
+                <configuration>
+                    <image>${project.artifactId}:${project.version}</image>
+                    <newName>${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+
+   绑定后，构建时同样也可以通过参数，跳过绑定的目标如：
     
+    -DskipDockerBuild  跳过build目标
+
+    -DskipDockerTag  跳过tag目标
+
+    -DskipDockerPush 跳过push目标
+
+    -DskipDocker to 跳过所有docker插件目标  

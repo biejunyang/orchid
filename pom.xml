@@ -26,7 +26,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!--docker properties -->
-        <docker.image.prefix>${user.name}</docker.image.prefix>
+        <!--<docker.image.prefix>registry.cn-beijing.aliyuncs.com/biejunyang</docker.image.prefix>-->
+        <docker.image.prefix>biejunyang</docker.image.prefix>
 
     </properties>
 
@@ -98,13 +99,15 @@
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>1.2.0</version>
+                    <version>0.4.11</version>
                     <configuration>
                         <!--构建的镜像名-->
                         <imageName>${project.artifactId}</imageName>
                         <imageTags>
+                            <imageTag>latest</imageTag>
                             <imageTag>${project.version}</imageTag>
                         </imageTags>
+
 
                         <!--强制覆盖镜像的某个标记-->
                         <forceTags>true</forceTags>
@@ -125,6 +128,9 @@
                         <!--声明要暴露的端口 -->
                         <!--<exposes>8080</exposes>-->
 
+                        <!--容器启动执行命令-->
+                        <!--<entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>-->
+
                         <!--文件复制指令，复制文件到容器指定目录-->
                         <resources>
                             <resource>
@@ -134,9 +140,53 @@
                                 <include>${project.build.finalName}.jar</include>
                             </resource>
                         </resources>
-                        <!--容器启动执行命令-->
-                        <!--<entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>-->
                     </configuration>
+
+                    <!-- 绑定到maven生命周期阶段-->
+                    <executions>
+                        <!--删除历史镜像-->
+                        <execution>
+                            <id>remove-image</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>removeImage</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>remove-tag-image</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>removeImage</goal>
+                            </goals>
+                            <configuration>
+                                <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                                <imageTags>
+                                    <imageTag>${project.version}</imageTag>
+                                </imageTags>
+                            </configuration>
+                        </execution>
+
+                        <!--生成镜像-->
+                        <execution>
+                            <id>build-image</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                        <!--标记镜像-->
+                        <execution>
+                            <id>tag-image</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>tag</goal>
+                            </goals>
+                            <configuration>
+                                <image>${project.artifactId}:${project.version}</image>
+                                <newName>${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
             </plugins>
