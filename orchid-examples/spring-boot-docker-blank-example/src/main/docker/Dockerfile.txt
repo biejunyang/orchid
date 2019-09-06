@@ -1,4 +1,4 @@
-FROM dockerfile/java:oracle-java8
+FROM fabletang/jre8-alpine
 
 VOLUME /tmp
 ADD spring-boot-docker-blank-example.jar /opt/spring-boot-docker-blank-example/

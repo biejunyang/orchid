@@ -114,8 +114,8 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
    
    官方地址：https://github.com/spotify/docker-maven-plugin
     
-## 1、docker-maven插件构建镜像有两种方式：
-   一种是将构建信息都定义在pom.xml文件中，不需要Dock erfile脚本，pom中支持的构建指令包括，FROM,ADD,CMD等构建指令；第二种是pom.xml文件中指定Dockerfile脚本位置，传入构建参数进行构建：
+## 1、docker-maven插件镜像构建信息设置：
+  设置构建有两种方式：一种是将构建信息都定义在pom.xml文件中，不需要Dockerfile脚本，pom中支持的构建指令包括，FROM,ADD,CMD等构建指令；第二种是pom.xml文件中指定Dockerfile脚本位置，传入构建参数进行构建：
 ### 1.1、pom.xml文件中指定构建信息，如：
     <plugin>
         <groupId>com.spotify</groupId>
