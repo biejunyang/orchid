@@ -260,3 +260,49 @@ Docker从入门倒到实战书籍：https://yeasy.gitbooks.io/docker_practice/
     -DskipDockerPush 跳过push目标
 
     -DskipDocker to 跳过所有docker插件目标  
+
+### 2.3、docker-maven插件推送镜像到Registry
+   指定发布到的Registry地址:推送时，要推送的镜像标记前缀必须指定Registry hostname以及端口，不指定默认是则是上传到DockerHub镜像中心。也可以使用插件的tag目标根据push的Registry地址生成标记，如：
+
+    <!--默认推送到DockerHub镜像中心，要对应到DockHub账户仓库下，如user-->
+    <imageName>user/docker-example</imageName>
+
+    <!--推送到其他镜像中心(如私有Docker Registry)，某个仓库下(阿里云镜像中心要指定namespace)-->
+    <imageName>registry.cn-beijing.aliyuncs.com/bieunyax/docker-example</mageName>
+
+    <!--绑定tag目标，生成镜像后，根据push地址打像标记-->
+    <execution>
+      <id>tag-image</id>
+      <phase>package</phase>
+      <goals>
+        <goal>tag</goal>
+      </goals>
+      <configuration>
+        <image>my-image</image>
+        <newName>registry.example.com/my-image</newName>
+      </configuration>
+    </execution>
+
+   授权认证:发布镜像到Registry镜像中心时，一般的Docker Registry都是需要用户认证的。docker-maven插件从1.0.0版本开始会自动使用docker-cli（docker客户端）配置文件（~/.dockercfg or ~/.docker/config.json）中的授权信息。如docker-cli中使用docker login命令登录后，则会将认证信息保存到配置文件.
+
+   此外Registry服务器认证信息配置到maven配置文件setting.xml文件的<servers>部分，在pom文件中通过<serverId>引用认证信息，如：.setting文件配置,如：
+        
+        <!--DockerHub-->
+        <server>
+            <id>docker-hub</id>
+            <username>zhangsan</username>
+            <password>21342345</password>
+        </server>
+        
+   pom.xml文件中配置：
+
+    <serverId>docker-hub</serverId>
+    <registryUrl>https://index.docker.io/v1/</registryUrl>
+    
+   registryUrl不指定，则默认是推送到Docker Hub
+
+   执行上传命令，或绑定maven生命周期阶段
+       
+    mvn docker build -DpushImage
+    mvn dokcer push
+    mvn docker:build -DpushImageTag -DdockerImageTags=latest,another-tag

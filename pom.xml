@@ -26,8 +26,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!--docker properties -->
-        <docker.image.prefix>registry.cn-hangzhou.aliyuncs.com/biejunyang</docker.image.prefix>
-        <!-- <docker.image.prefix>biejunyang</docker.image.prefix> -->
+        <!--<docker.image.prefix>registry.cn-hangzhou.aliyuncs.com/biejunyang</docker.image.prefix>-->
+         <docker.image.prefix>biejunyang</docker.image.prefix>
 
     </properties>
 
@@ -140,6 +140,9 @@
                                 <include>${project.build.finalName}.jar</include>
                             </resource>
                         </resources>
+
+                        <!--dockerhub认证信息 -->
+                        <serverId>docker-hub</serverId>
                     </configuration>
 
                     <!-- 绑定到maven生命周期阶段-->
