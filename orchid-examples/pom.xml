@@ -14,7 +14,6 @@
     <modules>
         <module>docker-example</module>
         <module>spring-boot-blank-example</module>
-        <module>spring-boot-docker-blank-example</module>
     </modules>
 
     <dependencies>

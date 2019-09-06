@@ -1,7 +1,0 @@
-FROM fabletang/jre8-alpine
-
-VOLUME /tmp
-ADD spring-boot-docker-blank-example.jar /opt/spring-boot-docker-blank-example/
-EXPOSE 8080
-WORKDIR /opt/spring-boot-docker-blank-example/
-CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-Xms512m", "-Xmx1g", "-jar", "spring-boot-docker-blank-example.jar"]

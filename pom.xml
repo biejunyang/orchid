@@ -190,16 +190,16 @@
                             </configuration>
                         </execution>
                         <!--推送镜像-->
-                        <execution>
-                            <id>push-image</id>
-                            <phase>install</phase>
-                            <goals>
-                                <goal>push</goal>
-                            </goals>
-                            <configuration>
-                                <imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>
-                            </configuration>
-                        </execution>
+                        <!--<execution>-->
+                            <!--<id>push-image</id>-->
+                            <!--<phase>install</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>push</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
                     </executions>
                 </plugin>
 
