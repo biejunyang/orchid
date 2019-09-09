@@ -148,13 +148,13 @@
                     <!-- 绑定到maven生命周期阶段-->
                     <executions>
                         <!--删除历史镜像-->
-                        <!--<execution>-->
-                            <!--<id>remove-image</id>-->
-                            <!--<phase>clean</phase>-->
-                            <!--<goals>-->
-                                <!--<goal>removeImage</goal>-->
-                            <!--</goals>-->
-                        <!--</execution>-->
+                        <execution>
+                            <id>remove-image</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>removeImage</goal>
+                            </goals>
+                        </execution>
                         <!--<execution>-->
                             <!--<id>remove-tag-image</id>-->
                             <!--<phase>clean</phase>-->
