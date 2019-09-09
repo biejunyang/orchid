@@ -26,8 +26,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!--docker properties -->
-        <!--<docker.image.prefix>registry.cn-hangzhou.aliyuncs.com/biejunyang</docker.image.prefix>-->
-         <docker.image.prefix>biejunyang</docker.image.prefix>
+        <docker.image.prefix>registry.cn-hangzhou.aliyuncs.com/biejunyang</docker.image.prefix>
+         <!--<docker.image.prefix>biejunyang</docker.image.prefix>-->
 
     </properties>
 
@@ -102,11 +102,11 @@
                     <version>1.2.0</version>
                     <configuration>
                         <!--构建的镜像名-->
-                        <imageName>${project.artifactId}</imageName>
-                        <imageTags>
-                            <imageTag>latest</imageTag>
-                            <imageTag>${project.version}</imageTag>
-                        </imageTags>
+                        <imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>
+                        <!--<imageTags>-->
+                            <!--<imageTag>latest</imageTag>-->
+                            <!--<imageTag>${project.version}</imageTag>-->
+                        <!--</imageTags>-->
 
 
                         <!--强制覆盖镜像的某个标记-->
@@ -116,7 +116,7 @@
                         <dockerDirectory>${basedir}/docker</dockerDirectory>
 
                         <!--Docker构建时的目录,默认是${project.build.directory}，构建上下文目录则是该目录下的docker目录-->
-                        <buildDirectory>${project.build.directory}</buildDirectory>
+                        <!--<buildDirectory>${project.build.directory}</buildDirectory>-->
                         <!--构建参数设置-->
                         <buildArgs>
                             <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
@@ -142,32 +142,32 @@
                         </resources>
 
                         <!--dockerhub认证信息 -->
-                        <serverId>docker-hub</serverId>
+                        <serverId>ali-Registry</serverId>
                     </configuration>
 
                     <!-- 绑定到maven生命周期阶段-->
                     <executions>
                         <!--删除历史镜像-->
-                        <execution>
-                            <id>remove-image</id>
-                            <phase>clean</phase>
-                            <goals>
-                                <goal>removeImage</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>remove-tag-image</id>
-                            <phase>clean</phase>
-                            <goals>
-                                <goal>removeImage</goal>
-                            </goals>
-                            <configuration>
-                                <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                                <imageTags>
-                                    <imageTag>${project.version}</imageTag>
-                                </imageTags>
-                            </configuration>
-                        </execution>
+                        <!--<execution>-->
+                            <!--<id>remove-image</id>-->
+                            <!--<phase>clean</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>removeImage</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
+                        <!--<execution>-->
+                            <!--<id>remove-tag-image</id>-->
+                            <!--<phase>clean</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>removeImage</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<imageName>${docker.image.prefix}/${project.artifactId}</imageName>-->
+                                <!--<imageTags>-->
+                                    <!--<imageTag>${project.version}</imageTag>-->
+                                <!--</imageTags>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
 
                         <!--生成镜像-->
                         <execution>
@@ -178,17 +178,17 @@
                             </goals>
                         </execution>
                         <!--标记镜像-->
-                        <execution>
-                            <id>tag-image</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>tag</goal>
-                            </goals>
-                            <configuration>
-                                <image>${project.artifactId}:${project.version}</image>
-                                <newName>${docker.image.prefix}/${project.artifactId}:${project.version}</newName>
-                            </configuration>
-                        </execution>
+                        <!--<execution>-->
+                            <!--<id>tag-image</id>-->
+                            <!--<phase>package</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>tag</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<image>${project.artifactId}:${project.version}</image>-->
+                                <!--<newName>${docker.image.prefix}/${project.artifactId}:${project.version}</newName>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
                         <!--推送镜像-->
                         <!--<execution>-->
                             <!--<id>push-image</id>-->
