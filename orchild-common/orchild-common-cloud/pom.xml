@@ -6,7 +6,6 @@
         <artifactId>orchild-common</artifactId>
         <groupId>com.orchid</groupId>
         <version>1.0.1-SNAPSHOT</version>
-        <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
