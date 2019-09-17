@@ -33,11 +33,13 @@
 
 
     <modules>
+       <!--
         <module>orchid-dependencies</module>
         <module>orchild-common</module>
         <module>orchid-cloud-app</module>
         <module>orchild-service-app</module>
         <module>orchid-examples</module>
+         -->
     </modules>
 
 
