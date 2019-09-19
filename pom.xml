@@ -33,7 +33,7 @@
 
 
     <modules>
-       
+
         <module>orchid-dependencies</module>
         <module>orchild-common</module>
         <module>orchid-cloud-app</module>
@@ -59,13 +59,6 @@
     <build>
         <!--项目输出名-->
         <finalName>${project.artifactId}-${project.version}</finalName>
-
-        <!-- 项目默认添加的插件依赖-->
-        <plugins>
-
-
-        </plugins>
-
 
         <!-- 项目构建插件管理-->
         <pluginManagement>
