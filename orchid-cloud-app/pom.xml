@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>orchid-eureka</module>
+        <module>orchid-gateway</module>
     </modules>
 
 
