@@ -26,7 +26,7 @@ public class DockerExampleApp {
         return "<h1>welcome,"+name+"</h1>";
     }
 
-    @GetMapping("/world")
+    @GetMapping("/docker-example/world")
     public String world(String name){
         return "<h1>world,"+name+"</h1>";
     }
