@@ -7,23 +7,22 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
-
 spring:
   application:
     name: orchid-gateway
   cloud:
     gateway:
+      ##自动搜索微服务列表创建路由
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+
+      ## 手动定义路由
 #      routes:
 #        - id: docker-example
 #          uri: lb://docker-example
 #          predicates:
 #          - Path=/docker-example/**
 #          filters:
-#          - StripPrefix=1
-#          - TokenRelay=
-
-
+#            - StripPrefix=1
