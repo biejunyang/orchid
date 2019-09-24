@@ -7,6 +7,11 @@ spring:
       name: admin
       password: admin
       roles: ADMIN,USER
+  datasource:
+    url: jdbc:mysql://10.225.12.98:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
 logging:
   level:
     root: info

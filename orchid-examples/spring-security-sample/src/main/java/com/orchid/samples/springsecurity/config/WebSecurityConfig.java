@@ -1,38 +1,99 @@
 package com.orchid.samples.springsecurity.config;
 
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-//Spring Security安全认证机制
+import java.util.ArrayList;
+import java.util.List;
+
+
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
+    /**
+     * 1、请求安全规则设置：设置哪些请求需要保护
+     * 2、认证方式设置：表单认证、oauth2.o认证、openid认证
+     * 3、请求安装设置其他功能：如跨域；记住登录状态；登录注销等
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /**
-         * Spring Securtiry安全机制默认配置：
-         *  1、所有请求都需要认证
-         *  2、使用表单认证的方式
-         *  3、使用内置的基础http表单认证方式：
-         *      a：登录页面url：GET /login
-         *      b：登录认证url：POST /login
-         *      c：登录失败跳转url：GET /login?error
-         *      d：注销确认页面：GET /logout
-         *      e：注销登录：POST /logout
-         *      f：注销成功页面：GET /login?logout
-         */
-//        super.configure(http);
-        http.authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .and()
-            .httpBasic();
+        super.configure(http);
+    }
 
+
+
+    /**
+     * 认证管理器：具体用户认证实现:
+     *   1、In-Memory Authentication内存用户认证,从内容中获取用户信息，注意设置密码时，需要执行密码的加密格式
+     *   2、JDBC Authentications数据源认证
+     *   3、LDAP Authentication
+     *   4、自定义认证方式，两种实现：
+     *      a、spring容器中注入AuthenticationProvider对象
+     *      b、spring容器中注入UserDetailsService对象
+     *         注意只有当AuthenticationManagerBuilder对象没有使用其他认证方式时，以上两种自定义认证方式才能生效，
+     *         并且AuthenticationProvider认证会覆盖UserDetailsService认证
+     * @param auth
+     * @throws Exception
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
+    }
+
+
+
+
+    @Bean
+    public UserDetailsService myUserDetailsService(){
+        return new UserDetailsService() {
+
+            @Override
+            public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+                List<SimpleGrantedAuthority> authorities=new ArrayList<>();
+                authorities.add(new SimpleGrantedAuthority("ADMIN"));
+                return new User("zhangsan", new BCryptPasswordEncoder().encode("123456"), authorities);
+            }
+        };
+    }
+
+
+
+    /**
+     * 密码编码器
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+
+        return new BCryptPasswordEncoder();
+
+        //托管编码器
+//        DelegatingPasswordEncoder delegatingPasswordEncoder=(DelegatingPasswordEncoder) PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        delegatingPasswordEncoder.setDefaultPasswordEncoderForMatches(NoOpPasswordEncoder.getInstance());
+//        return  delegatingPasswordEncoder;
+    }
+
+
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
     }
 }
