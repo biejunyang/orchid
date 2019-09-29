@@ -2,16 +2,15 @@ server:
   port: 8080
 
 spring:
-  security:
-    user:
-      name: admin
-      password: admin
-      roles: ADMIN,USER
+  profiles:
+    active: oauth2-login
   datasource:
     url: jdbc:mysql://10.225.12.98:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    cache: false
 logging:
   level:
     root: info
