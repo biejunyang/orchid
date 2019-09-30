@@ -1,0 +1,9 @@
+server:
+  port:
+
+spring:
+  security:
+#    配置默认用户信息
+    user:
+      name: admin
+      password: admin

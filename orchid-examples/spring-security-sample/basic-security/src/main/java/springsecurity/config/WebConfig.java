@@ -1,7 +1,6 @@
-package com.orchid.samples.springsecurity.config;
+package springsecurity.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration

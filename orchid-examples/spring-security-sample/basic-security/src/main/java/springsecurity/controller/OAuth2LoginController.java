@@ -1,4 +1,4 @@
-package com.orchid.samples.springsecurity.controller;
+package springsecurity.controller;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
