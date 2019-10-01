@@ -1,6 +1,7 @@
 package com.orchid.examples.springsecurity.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,10 +14,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
+import javax.annotation.Resource;
+
 @EnableAuthorizationServer
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-
 
 
     @Autowired
@@ -37,7 +39,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(this.authenticationManager);
+        endpoints.authenticationManager(authenticationManager);
+//        super.configure(endpoints);
     }
 
 
@@ -57,10 +60,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security
-            .tokenKeyAccess("permitAll()")//获取令牌端点不要认证
-            .checkTokenAccess("isAuthenticated()")//校验令牌端点需要授权过
-                .allowFormAuthenticationForClients();
+        security.allowFormAuthenticationForClients();
+//        security
+//            .tokenKeyAccess("permitAll()")// jwt获取令牌key端点不要认证
+//            .checkTokenAccess("isAuthenticated()");//校验令牌端点需要授权过
+//                .allowFormAuthenticationForClients();
     }
 
 
@@ -92,7 +96,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //        1、内存中设置客户端信息inMemory()，注意授权码授权时，必须设置好重定向地址
         clients
             .inMemory().withClient("client").secret("{noop}client")
-                .authorizedGrantTypes("client_credentials", "authorization_code", "refresh_token", "password")
+                .authorizedGrantTypes("client_credentials", "authorization_code", "refresh_token", "password", "implicit")
                 .scopes("read","write")
                 .redirectUris("http://baidu.com").accessTokenValiditySeconds(600_000_000);
 

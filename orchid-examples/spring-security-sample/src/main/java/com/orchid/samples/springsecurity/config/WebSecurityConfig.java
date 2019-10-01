@@ -1,21 +1,28 @@
-package com.orchid.examples.springsecurity.config;
+package com.orchid.samples.springsecurity.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+    }
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}123456").authorities("ADMIN");
+        super.configure(auth);
     }
 
     @Override
@@ -23,13 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         super.configure(web);
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-    }
 
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    @Override
+    protected UserDetailsService userDetailsService() {
+        return super.userDetailsService();
     }
 }
