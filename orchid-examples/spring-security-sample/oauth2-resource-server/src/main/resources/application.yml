@@ -1,8 +1,15 @@
 server:
-  port: 8080
+  port: 8081
+
 spring:
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://login.hrmc.genomics.cn/.well-known/jwks.json
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:8080/.well-known/jwks.json
+security:
+  oauth2:
+    resource:
+      token-type:
+    authorization:
+      check-token-access: http://localhost:9005/oauth/check_token

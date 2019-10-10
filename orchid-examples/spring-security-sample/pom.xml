@@ -20,6 +20,7 @@
         <module>oauth2-login</module>
         <module>basic-security</module>
         <module>oauth2-auth-server</module>
+        <module>oauth2-resource-server2</module>
     </modules>
 
     <build>

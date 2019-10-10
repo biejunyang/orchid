@@ -1,19 +1,17 @@
-package com.orchid.examples.springsecurity;
+package com.orchid.springboot2.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @SpringBootApplication
 @RestController
-public class OAuth2ResourceServerApp {
-
-    public static void main(String[] args) {
-        SpringApplication.run(OAuth2ResourceServerApp.class, args);
+public class MainApp {
+    public static void main(String[] args){
+        SpringApplication.run(MainApp.class, args);
     }
+
 
     @GetMapping("/hello")
     public String hello(String name){
@@ -23,6 +21,11 @@ public class OAuth2ResourceServerApp {
     @GetMapping("/welcome")
     public String welcome(String name){
         return "<h1>welcome,"+name+"</h1>";
+    }
+
+    @GetMapping("/docker-example/world")
+    public String world(String name){
+        return "<h1>world,"+name+"</h1>";
     }
 
     @GetMapping("/bye")
