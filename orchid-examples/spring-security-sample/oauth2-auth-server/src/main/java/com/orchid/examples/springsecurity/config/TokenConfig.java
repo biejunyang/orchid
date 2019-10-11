@@ -51,8 +51,11 @@ public class TokenConfig {
     @Bean
     public JwtAccessTokenConverter accessTokenConverter(KeyPair keyPair) {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-//        converter.setKeyPair(keyPair);
-        converter.setSigningKey("123456");
+        converter.setKeyPair(keyPair);
+
+        //对称加密签名
+//        converter.setSigningKey("123456");
+
         DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
         accessTokenConverter.setUserTokenConverter(new SubjectAttributeUserTokenConverter());
         converter.setAccessTokenConverter(accessTokenConverter);
