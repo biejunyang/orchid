@@ -1,6 +1,7 @@
 package com.orchid.examples.springsecurity.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * OAuth2 Token Manage Config
@@ -108,7 +110,8 @@ public class TokenConfig {
         @ResponseBody
         public Map<String, Object> getKey() {
             RSAPublicKey publicKey = (RSAPublicKey) this.keyPair.getPublic();
-            RSAKey key = new RSAKey.Builder(publicKey).build();
+            RSAKey key = new RSAKey.Builder(publicKey) .keyUse(KeyUse.SIGNATURE)
+                    .keyID(UUID.randomUUID().toString()).build();
             return new JWKSet(key).toJSONObject();
         }
     }
