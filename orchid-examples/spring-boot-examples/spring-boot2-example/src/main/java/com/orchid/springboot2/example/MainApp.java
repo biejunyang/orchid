@@ -15,16 +15,19 @@ public class MainApp {
 
     @GetMapping("/hello")
     public String hello(String name){
+        System.out.println(Thread.currentThread().getName()+","+Thread.currentThread().getId());
         return "<h1>hello,"+name+"</h1>";
     }
 
     @GetMapping("/welcome")
     public String welcome(String name){
+        System.out.println(Thread.currentThread().getName()+","+Thread.currentThread().getId());
         return "<h1>welcome,"+name+"</h1>";
     }
 
     @GetMapping("/docker-example/world")
     public String world(String name){
+        System.out.println(Thread.currentThread().getName()+","+Thread.currentThread().getId());
         return "<h1>world,"+name+"</h1>";
     }
 
