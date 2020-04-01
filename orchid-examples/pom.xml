@@ -15,6 +15,7 @@
         <module>docker-example</module>
         <module>spring-security-sample</module>
         <module>spring-boot-examples</module>
+        <module>oauth2-examples</module>
     </modules>
 
     <dependencies>

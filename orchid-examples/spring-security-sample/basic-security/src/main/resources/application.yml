@@ -4,6 +4,10 @@ server:
 spring:
   profiles:
     active: basic
+  security:
+    user:
+      name: admin
+      password: admin
 logging:
   level:
-    root: info
+    org.springframework: debug

@@ -10,17 +10,19 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 @EnableAuthorizationServer
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 
-    @Autowired
-    private DataSource dataSource;
+//    @Autowired
+//    private DataSource dataSource;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -43,6 +45,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authenticationManager(authenticationManager) //指定用户认证管理器
 	            .tokenStore(tokenStore)
                 .accessTokenConverter(accessTokenConverter);
+
+        // 配置TokenServices参数
+//        DefaultTokenServices tokenServices = (DefaultTokenServices) endpoints.getDefaultAuthorizationServerTokenServices();
+//        tokenServices.setTokenStore(endpoints.getTokenStore());
+//        tokenServices.setSupportRefreshToken(true);
+//        // 复用refresh token
+//        tokenServices.setReuseRefreshToken(false);
+//        tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+//        tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+//        tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.SECONDS.toSeconds(1)); // 1天
+//        endpoints.tokenServices(tokenServices);
+
 
     }
 
@@ -74,7 +88,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             .inMemory().withClient("client").secret("{noop}client")
                 .authorizedGrantTypes("client_credentials", "authorization_code", "refresh_token", "password", "implicit")
                 .scopes("read","write")
-                .redirectUris("http://baidu.com").accessTokenValiditySeconds(600_000_000);
+                .redirectUris("http://baidu.com", "http://localhost:8083/client/login", "http://localhost:8083/client/hello","http://localhost:8084/client2/login")
+                .accessTokenValiditySeconds(600_000_000).and()
+
+                .withClient("client1").secret("{noop}client1")
+                .authorizedGrantTypes("client_credentials", "authorization_code", "refresh_token", "password", "implicit")
+                .scopes("read","write")
+                .redirectUris("http://localhost:8085/client1/login")
+                .accessTokenValiditySeconds(600_000_000).autoApprove(true).and()
+
+                .withClient("client2").secret("{noop}client2")
+                .authorizedGrantTypes("client_credentials", "authorization_code", "refresh_token", "password", "implicit")
+                .scopes("read","write")
+                .redirectUris("http://localhost:8086/client2/login")
+                .accessTokenValiditySeconds(600_000_000).autoApprove(true);
 
 
         //2、从jdbc数据源中获取客户端信息，默认的表结构中
