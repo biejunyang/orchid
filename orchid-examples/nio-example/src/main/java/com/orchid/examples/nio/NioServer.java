@@ -17,7 +17,7 @@ public class NioServer {
     private static Processor processor=new Processor();
 
     /**
-     * 一个线程可以处理多个请求连接、但是处理的多个请求之间，中并不会受到其中某个请求的IO阻塞的影响、
+     * 一个线程可以处理多个请求连接、但是处理的多个请求之间中并不会受到其中某个请求的IO阻塞的影响、
      * 因为使用的是NIO、非阻塞io处理
      * @param args
      * @throws Exception
@@ -50,11 +50,12 @@ public class NioServer {
                 if (key.isAcceptable()) {
                     createChannel(serverSocketChannel, key);
                 } else if (key.isReadable()) {
-                    System.out.println("reading................");
-                    doRead(key);
-//                    Processor processor = (Processor) key.attachment();
-//                    processor.process(key);
-                }else if(key.isWritable()){
+//                    doRead(key);
+                    Processor processor = (Processor) key.attachment();
+                    processor.process(key);
+                    key.cancel();
+                }
+                else if(key.isWritable()){
                     doWrite(key);
                 }
                 iterator.remove();
@@ -106,7 +107,8 @@ public class NioServer {
                 doClose(socketChannel);
             }else{
                 dataMap.get(socketChannel).add(val);
-//                selectionKey.interestOps(SelectionKey.OP_WRITE);//修改监听的事件为write操作
+                System.out.println(val);
+                selectionKey.interestOps(SelectionKey.OP_WRITE);//修改监听的事件为write操作
             }
         }
     }
