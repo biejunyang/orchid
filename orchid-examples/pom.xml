@@ -15,7 +15,8 @@
         <module>docker-example</module>
         <module>spring-security-sample</module>
         <module>spring-boot-examples</module>
-        <module>redis-example</module>
+        <module>oauth2-examples</module>
+        <module>nio-example</module>
     </modules>
 
     <dependencies>
