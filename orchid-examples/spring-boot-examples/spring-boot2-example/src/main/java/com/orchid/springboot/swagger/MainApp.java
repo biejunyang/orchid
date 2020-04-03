@@ -1,4 +1,4 @@
-package com.orchid.springboot2.example;
+package com.orchid.springboot.swagger;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
